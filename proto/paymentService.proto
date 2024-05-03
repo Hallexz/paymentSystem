@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "./proto"; 
+service BankAcountService {
+    rpc AddBankAccount(BankAccount) returns (BankAccountResponse) {}
+    rpc UpdateBankAccount(BankAccount) returns (BankAccountResponse) {}
+    rpc DeleteBankAccount(BankAccount) returns (BankAccountResponse) {}
+}
+
+message BankAccount {
+    string User = 1;
+    string AccountNumber = 2;
+    string BankName = 3;
+    string CardNumber = 4;
+    string CardExpiry = 5;
+    string CardCVV = 6;
+}
+
+message BankAccountResponse {
+    string Confirmation = 1;
+}
+ 
+service UserService {
+    rpc CreateUser(User) returns (UserResponse) {}
+    rpc UserLogin(User) returns (UserResponse) {}
+}
+
+message User {
+    string Username = 1;
+    string Password = 2;
+}
+
+message UserResponse {
+    string Confirmation = 1;
+}
+service PaymentService {
+    rpc InitiatePayment(PaymentRequest) returns (PaymentResponse) {}
+    rpc ProcessPayment(PaymentRequest) returns (PaymentResponse) {}
+    rpc ConfirmPayment(PaymentRequest) returns (PaymentResponse) {}
+    rpc RefundPayment(PaymentRequest) returns (PaymentResponse) {}
+}
+
+message PaymentRequest {
+    string User = 1;
+    int32 Amount = 2;
+    string Currency = 3; 
+    string Recipient = 4; 
+}
+
+message PaymentResponse {
+    string Confirmation = 1;
+}
+
+service TransactionService {
+    rpc GetTransactionHistory(TransactionRequest) returns (TransactionResponse) {}
+}
+
+message TransactionRequest {
+    string User = 1;
+}
+
+message Transaction {
+    string User = 1;
+    int32 Amount = 2;
+    string Currency = 3;
+    string Recipient = 4;
+    string Status = 5;
+}
+
+
+message TransactionResponse {
+    repeated Transaction transactions = 1;
+}
+  
+
+
+
+  

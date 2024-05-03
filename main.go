@@ -17,7 +17,11 @@ func main() {
 	}
 	s := grpc.NewServer()
 	pb.RegisterPaymentServiceServer(s, &src.Server{})
-	if err := s.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %v", err)
-	}
+	go func() {
+		if err := s.Serve(lis); err != nil {
+			log.Fatalf("failed to serve: %v", err)
+		}
+	}()
+	src.ClientPay()
+
 }

@@ -25,7 +25,7 @@ func ClientPay() {
 
 	ctx, cansel := context.WithTimeout(context.Background(), time.Second)
 	defer cansel()
-	r, err := c.SendPayment(ctx, &pb.PaymentRequest{User: "Alice", Amount: 100})
+	r, err := c.InitiatePayment(ctx, &pb.PaymentRequest{User: "Alice", Amount: 100}) // Используйте InitiatePayment вместо SendPayment
 	if err != nil {
 		log.Fatalf("could not send payment: %v", err)
 	}

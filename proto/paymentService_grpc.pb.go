@@ -18,11 +18,294 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
+// BankAcountServiceClient is the client API for BankAcountService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type BankAcountServiceClient interface {
+	AddBankAccount(ctx context.Context, in *BankAccount, opts ...grpc.CallOption) (*BankAccountResponse, error)
+	UpdateBankAccount(ctx context.Context, in *BankAccount, opts ...grpc.CallOption) (*BankAccountResponse, error)
+	DeleteBankAccount(ctx context.Context, in *BankAccount, opts ...grpc.CallOption) (*BankAccountResponse, error)
+}
+
+type bankAcountServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewBankAcountServiceClient(cc grpc.ClientConnInterface) BankAcountServiceClient {
+	return &bankAcountServiceClient{cc}
+}
+
+func (c *bankAcountServiceClient) AddBankAccount(ctx context.Context, in *BankAccount, opts ...grpc.CallOption) (*BankAccountResponse, error) {
+	out := new(BankAccountResponse)
+	err := c.cc.Invoke(ctx, "/proto.BankAcountService/AddBankAccount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *bankAcountServiceClient) UpdateBankAccount(ctx context.Context, in *BankAccount, opts ...grpc.CallOption) (*BankAccountResponse, error) {
+	out := new(BankAccountResponse)
+	err := c.cc.Invoke(ctx, "/proto.BankAcountService/UpdateBankAccount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *bankAcountServiceClient) DeleteBankAccount(ctx context.Context, in *BankAccount, opts ...grpc.CallOption) (*BankAccountResponse, error) {
+	out := new(BankAccountResponse)
+	err := c.cc.Invoke(ctx, "/proto.BankAcountService/DeleteBankAccount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// BankAcountServiceServer is the server API for BankAcountService service.
+// All implementations must embed UnimplementedBankAcountServiceServer
+// for forward compatibility
+type BankAcountServiceServer interface {
+	AddBankAccount(context.Context, *BankAccount) (*BankAccountResponse, error)
+	UpdateBankAccount(context.Context, *BankAccount) (*BankAccountResponse, error)
+	DeleteBankAccount(context.Context, *BankAccount) (*BankAccountResponse, error)
+	mustEmbedUnimplementedBankAcountServiceServer()
+}
+
+// UnimplementedBankAcountServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedBankAcountServiceServer struct {
+}
+
+func (UnimplementedBankAcountServiceServer) AddBankAccount(context.Context, *BankAccount) (*BankAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddBankAccount not implemented")
+}
+func (UnimplementedBankAcountServiceServer) UpdateBankAccount(context.Context, *BankAccount) (*BankAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateBankAccount not implemented")
+}
+func (UnimplementedBankAcountServiceServer) DeleteBankAccount(context.Context, *BankAccount) (*BankAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteBankAccount not implemented")
+}
+func (UnimplementedBankAcountServiceServer) mustEmbedUnimplementedBankAcountServiceServer() {}
+
+// UnsafeBankAcountServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to BankAcountServiceServer will
+// result in compilation errors.
+type UnsafeBankAcountServiceServer interface {
+	mustEmbedUnimplementedBankAcountServiceServer()
+}
+
+func RegisterBankAcountServiceServer(s grpc.ServiceRegistrar, srv BankAcountServiceServer) {
+	s.RegisterService(&BankAcountService_ServiceDesc, srv)
+}
+
+func _BankAcountService_AddBankAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BankAccount)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BankAcountServiceServer).AddBankAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.BankAcountService/AddBankAccount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BankAcountServiceServer).AddBankAccount(ctx, req.(*BankAccount))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BankAcountService_UpdateBankAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BankAccount)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BankAcountServiceServer).UpdateBankAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.BankAcountService/UpdateBankAccount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BankAcountServiceServer).UpdateBankAccount(ctx, req.(*BankAccount))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BankAcountService_DeleteBankAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BankAccount)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BankAcountServiceServer).DeleteBankAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.BankAcountService/DeleteBankAccount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BankAcountServiceServer).DeleteBankAccount(ctx, req.(*BankAccount))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// BankAcountService_ServiceDesc is the grpc.ServiceDesc for BankAcountService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var BankAcountService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "proto.BankAcountService",
+	HandlerType: (*BankAcountServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "AddBankAccount",
+			Handler:    _BankAcountService_AddBankAccount_Handler,
+		},
+		{
+			MethodName: "UpdateBankAccount",
+			Handler:    _BankAcountService_UpdateBankAccount_Handler,
+		},
+		{
+			MethodName: "DeleteBankAccount",
+			Handler:    _BankAcountService_DeleteBankAccount_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "proto/paymentService.proto",
+}
+
+// UserServiceClient is the client API for UserService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type UserServiceClient interface {
+	CreateUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*UserResponse, error)
+	UserLogin(ctx context.Context, in *User, opts ...grpc.CallOption) (*UserResponse, error)
+}
+
+type userServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewUserServiceClient(cc grpc.ClientConnInterface) UserServiceClient {
+	return &userServiceClient{cc}
+}
+
+func (c *userServiceClient) CreateUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*UserResponse, error) {
+	out := new(UserResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/CreateUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) UserLogin(ctx context.Context, in *User, opts ...grpc.CallOption) (*UserResponse, error) {
+	out := new(UserResponse)
+	err := c.cc.Invoke(ctx, "/proto.UserService/UserLogin", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// UserServiceServer is the server API for UserService service.
+// All implementations must embed UnimplementedUserServiceServer
+// for forward compatibility
+type UserServiceServer interface {
+	CreateUser(context.Context, *User) (*UserResponse, error)
+	UserLogin(context.Context, *User) (*UserResponse, error)
+	mustEmbedUnimplementedUserServiceServer()
+}
+
+// UnimplementedUserServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedUserServiceServer struct {
+}
+
+func (UnimplementedUserServiceServer) CreateUser(context.Context, *User) (*UserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
+}
+func (UnimplementedUserServiceServer) UserLogin(context.Context, *User) (*UserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserLogin not implemented")
+}
+func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
+
+// UnsafeUserServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to UserServiceServer will
+// result in compilation errors.
+type UnsafeUserServiceServer interface {
+	mustEmbedUnimplementedUserServiceServer()
+}
+
+func RegisterUserServiceServer(s grpc.ServiceRegistrar, srv UserServiceServer) {
+	s.RegisterService(&UserService_ServiceDesc, srv)
+}
+
+func _UserService_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(User)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).CreateUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/CreateUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).CreateUser(ctx, req.(*User))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_UserLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(User)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).UserLogin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.UserService/UserLogin",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).UserLogin(ctx, req.(*User))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var UserService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "proto.UserService",
+	HandlerType: (*UserServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateUser",
+			Handler:    _UserService_CreateUser_Handler,
+		},
+		{
+			MethodName: "UserLogin",
+			Handler:    _UserService_UserLogin_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "proto/paymentService.proto",
+}
+
 // PaymentServiceClient is the client API for PaymentService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PaymentServiceClient interface {
-	SendPayment(ctx context.Context, in *PaymentRequest, opts ...grpc.CallOption) (*PaymentResponse, error)
+	InitiatePayment(ctx context.Context, in *PaymentRequest, opts ...grpc.CallOption) (*PaymentResponse, error)
+	ProcessPayment(ctx context.Context, in *PaymentRequest, opts ...grpc.CallOption) (*PaymentResponse, error)
+	ConfirmPayment(ctx context.Context, in *PaymentRequest, opts ...grpc.CallOption) (*PaymentResponse, error)
+	RefundPayment(ctx context.Context, in *PaymentRequest, opts ...grpc.CallOption) (*PaymentResponse, error)
 }
 
 type paymentServiceClient struct {
@@ -33,9 +316,36 @@ func NewPaymentServiceClient(cc grpc.ClientConnInterface) PaymentServiceClient {
 	return &paymentServiceClient{cc}
 }
 
-func (c *paymentServiceClient) SendPayment(ctx context.Context, in *PaymentRequest, opts ...grpc.CallOption) (*PaymentResponse, error) {
+func (c *paymentServiceClient) InitiatePayment(ctx context.Context, in *PaymentRequest, opts ...grpc.CallOption) (*PaymentResponse, error) {
 	out := new(PaymentResponse)
-	err := c.cc.Invoke(ctx, "/payment.PaymentService/SendPayment", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/proto.PaymentService/InitiatePayment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *paymentServiceClient) ProcessPayment(ctx context.Context, in *PaymentRequest, opts ...grpc.CallOption) (*PaymentResponse, error) {
+	out := new(PaymentResponse)
+	err := c.cc.Invoke(ctx, "/proto.PaymentService/ProcessPayment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *paymentServiceClient) ConfirmPayment(ctx context.Context, in *PaymentRequest, opts ...grpc.CallOption) (*PaymentResponse, error) {
+	out := new(PaymentResponse)
+	err := c.cc.Invoke(ctx, "/proto.PaymentService/ConfirmPayment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *paymentServiceClient) RefundPayment(ctx context.Context, in *PaymentRequest, opts ...grpc.CallOption) (*PaymentResponse, error) {
+	out := new(PaymentResponse)
+	err := c.cc.Invoke(ctx, "/proto.PaymentService/RefundPayment", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +356,10 @@ func (c *paymentServiceClient) SendPayment(ctx context.Context, in *PaymentReque
 // All implementations must embed UnimplementedPaymentServiceServer
 // for forward compatibility
 type PaymentServiceServer interface {
-	SendPayment(context.Context, *PaymentRequest) (*PaymentResponse, error)
+	InitiatePayment(context.Context, *PaymentRequest) (*PaymentResponse, error)
+	ProcessPayment(context.Context, *PaymentRequest) (*PaymentResponse, error)
+	ConfirmPayment(context.Context, *PaymentRequest) (*PaymentResponse, error)
+	RefundPayment(context.Context, *PaymentRequest) (*PaymentResponse, error)
 	mustEmbedUnimplementedPaymentServiceServer()
 }
 
@@ -54,8 +367,17 @@ type PaymentServiceServer interface {
 type UnimplementedPaymentServiceServer struct {
 }
 
-func (UnimplementedPaymentServiceServer) SendPayment(context.Context, *PaymentRequest) (*PaymentResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SendPayment not implemented")
+func (UnimplementedPaymentServiceServer) InitiatePayment(context.Context, *PaymentRequest) (*PaymentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method InitiatePayment not implemented")
+}
+func (UnimplementedPaymentServiceServer) ProcessPayment(context.Context, *PaymentRequest) (*PaymentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ProcessPayment not implemented")
+}
+func (UnimplementedPaymentServiceServer) ConfirmPayment(context.Context, *PaymentRequest) (*PaymentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ConfirmPayment not implemented")
+}
+func (UnimplementedPaymentServiceServer) RefundPayment(context.Context, *PaymentRequest) (*PaymentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RefundPayment not implemented")
 }
 func (UnimplementedPaymentServiceServer) mustEmbedUnimplementedPaymentServiceServer() {}
 
@@ -70,20 +392,74 @@ func RegisterPaymentServiceServer(s grpc.ServiceRegistrar, srv PaymentServiceSer
 	s.RegisterService(&PaymentService_ServiceDesc, srv)
 }
 
-func _PaymentService_SendPayment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PaymentService_InitiatePayment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(PaymentRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PaymentServiceServer).SendPayment(ctx, in)
+		return srv.(PaymentServiceServer).InitiatePayment(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/payment.PaymentService/SendPayment",
+		FullMethod: "/proto.PaymentService/InitiatePayment",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PaymentServiceServer).SendPayment(ctx, req.(*PaymentRequest))
+		return srv.(PaymentServiceServer).InitiatePayment(ctx, req.(*PaymentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PaymentService_ProcessPayment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PaymentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentServiceServer).ProcessPayment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.PaymentService/ProcessPayment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentServiceServer).ProcessPayment(ctx, req.(*PaymentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PaymentService_ConfirmPayment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PaymentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentServiceServer).ConfirmPayment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.PaymentService/ConfirmPayment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentServiceServer).ConfirmPayment(ctx, req.(*PaymentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PaymentService_RefundPayment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PaymentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PaymentServiceServer).RefundPayment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.PaymentService/RefundPayment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PaymentServiceServer).RefundPayment(ctx, req.(*PaymentRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -92,12 +468,110 @@ func _PaymentService_SendPayment_Handler(srv interface{}, ctx context.Context, d
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var PaymentService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "payment.PaymentService",
+	ServiceName: "proto.PaymentService",
 	HandlerType: (*PaymentServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "SendPayment",
-			Handler:    _PaymentService_SendPayment_Handler,
+			MethodName: "InitiatePayment",
+			Handler:    _PaymentService_InitiatePayment_Handler,
+		},
+		{
+			MethodName: "ProcessPayment",
+			Handler:    _PaymentService_ProcessPayment_Handler,
+		},
+		{
+			MethodName: "ConfirmPayment",
+			Handler:    _PaymentService_ConfirmPayment_Handler,
+		},
+		{
+			MethodName: "RefundPayment",
+			Handler:    _PaymentService_RefundPayment_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "proto/paymentService.proto",
+}
+
+// TransactionServiceClient is the client API for TransactionService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type TransactionServiceClient interface {
+	GetTransactionHistory(ctx context.Context, in *TransactionRequest, opts ...grpc.CallOption) (*TransactionResponse, error)
+}
+
+type transactionServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewTransactionServiceClient(cc grpc.ClientConnInterface) TransactionServiceClient {
+	return &transactionServiceClient{cc}
+}
+
+func (c *transactionServiceClient) GetTransactionHistory(ctx context.Context, in *TransactionRequest, opts ...grpc.CallOption) (*TransactionResponse, error) {
+	out := new(TransactionResponse)
+	err := c.cc.Invoke(ctx, "/proto.TransactionService/GetTransactionHistory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// TransactionServiceServer is the server API for TransactionService service.
+// All implementations must embed UnimplementedTransactionServiceServer
+// for forward compatibility
+type TransactionServiceServer interface {
+	GetTransactionHistory(context.Context, *TransactionRequest) (*TransactionResponse, error)
+	mustEmbedUnimplementedTransactionServiceServer()
+}
+
+// UnimplementedTransactionServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedTransactionServiceServer struct {
+}
+
+func (UnimplementedTransactionServiceServer) GetTransactionHistory(context.Context, *TransactionRequest) (*TransactionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTransactionHistory not implemented")
+}
+func (UnimplementedTransactionServiceServer) mustEmbedUnimplementedTransactionServiceServer() {}
+
+// UnsafeTransactionServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TransactionServiceServer will
+// result in compilation errors.
+type UnsafeTransactionServiceServer interface {
+	mustEmbedUnimplementedTransactionServiceServer()
+}
+
+func RegisterTransactionServiceServer(s grpc.ServiceRegistrar, srv TransactionServiceServer) {
+	s.RegisterService(&TransactionService_ServiceDesc, srv)
+}
+
+func _TransactionService_GetTransactionHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TransactionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TransactionServiceServer).GetTransactionHistory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.TransactionService/GetTransactionHistory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TransactionServiceServer).GetTransactionHistory(ctx, req.(*TransactionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// TransactionService_ServiceDesc is the grpc.ServiceDesc for TransactionService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var TransactionService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "proto.TransactionService",
+	HandlerType: (*TransactionServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetTransactionHistory",
+			Handler:    _TransactionService_GetTransactionHistory_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

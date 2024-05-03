@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net"
 	"paymentSystem/src"
@@ -23,5 +24,21 @@ func main() {
 		}
 	}()
 	src.ClientPay()
+
+	bank := src.NewBank()
+	account := &pb.BankAccount{
+		User:          "User1",
+		AccountNumber: "1234567890",
+		BankName:      "Bank1",
+		CardNumber:    "1111222233334444",
+		CardExpiry:    "01/23",
+		CardCVV:       "123",
+	}
+
+	// Добавьте банковский счет в банк
+	response := bank.AddBankAccount(account)
+
+	// Выведите подтверждение
+	fmt.Println(response.Confirmation)
 
 }

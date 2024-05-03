@@ -69,7 +69,6 @@ message Transaction {
     string Status = 5;
 }
 
-
 message TransactionResponse {
     repeated Transaction transactions = 1;
 }

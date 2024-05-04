@@ -40,16 +40,15 @@ func (s *userServiceServer) UserLogin(ctx context.Context, in *pb.User) (*pb.Use
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	// Проверьте, существует ли пользователь с таким именем
 	user, ok := s.users[in.Username]
 	if !ok {
 		return nil, errors.New("user does not exist")
 	}
 
-	// Проверьте, совпадает ли пароль
 	if user.Password != in.Password {
 		return nil, errors.New("incorrect password")
 	}
 
 	return &pb.UserResponse{Confirmation: "User logged in successfully"}, nil
 }
+

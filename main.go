@@ -35,15 +35,12 @@ func main() {
 	response := bank.AddBankAccount(newAccount)
 	fmt.Println(response.Confirmation)
 
-	// Запуск сервера
 	lis, err := net.Listen("tcp", "localhost:50051")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	grpcServer := grpc.NewServer()
 
-	// Регистрация серверов
-	pb.RegisterPaymentServiceServer(grpcServer, &s)
 	pb.RegisterPaymentServiceServer(grpcServer, &ps)
 
 	pb.RegisterTransactionServiceServer(grpcServer, ts)

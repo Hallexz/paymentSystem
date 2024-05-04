@@ -2,6 +2,7 @@ package src
 
 import (
 	"context"
+	"paymentSystem/src/api"
 
 	pb "paymentSystem/proto"
 )
@@ -18,21 +19,18 @@ type PaymentService struct {
 }
 
 func (s *PaymentService) InitiatePayment(ctx context.Context, in *pb.PaymentRequest) (*pb.PaymentResponse, error) {
-	// Логика для инициации платежа
 	return &pb.PaymentResponse{Confirmation: "Payment initiated successfully"}, nil
 }
 
 func (s *PaymentService) ProcessPayment(ctx context.Context, in *pb.PaymentRequest) (*pb.PaymentResponse, error) {
-	// Логика для обрабоктки платеда
 	return &pb.PaymentResponse{Confirmation: "Payment processed successfully"}, nil
 }
 
 func (s *PaymentService) ConfirmPayment(ctx context.Context, in *pb.PaymentRequest) (*pb.PaymentResponse, error) {
-	// Логика для подтверждения платежа
 	return &pb.PaymentResponse{Confirmation: "Payment confirmed successfully"}, nil
 }
 
 func (s *PaymentService) RefundPayment(ctx context.Context, in *pb.PaymentRequest) (*pb.PaymentResponse, error) {
-	// Логика для возврата платежа
 	return &pb.PaymentResponse{Confirmation: "Payment refunded successfully"}, nil
 }
+

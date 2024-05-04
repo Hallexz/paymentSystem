@@ -15,7 +15,7 @@ const (
 	defaultName = "world"
 )
 
-func ClientPay() {
+func ClientPay(client pb.PaymentServiceClient) {
 	conn, err := grpc.Dial(address, grpc.WithAuthority("your_authority"), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)

@@ -32,6 +32,6 @@ func (b *Bank) AddBankAccount(account *pb.BankAccount) *pb.BankAccountResponse {
 	return &pb.BankAccountResponse{Confirmation: "Bank account added successfully"}
 }
 
-func addBankAccount(account *pb.BankAccount) *pb.BankAccountResponse {
+func addBankAccount(_ *pb.BankAccount) *pb.BankAccountResponse {
 	return &pb.BankAccountResponse{Confirmation: "Bank account added successfully"}
 }

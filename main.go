@@ -12,33 +12,54 @@ import (
 )
 
 func main() {
-	lis, err := net.Listen("tcp", ":50051")
-	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
-	}
-	s := grpc.NewServer()
-	pb.RegisterPaymentServiceServer(s, &src.Server{})
-	go func() {
-		if err := s.Serve(lis); err != nil {
-			log.Fatalf("failed to serve: %v", err)
-		}
-	}()
 	src.ClientPay()
 
+	s := src.Server{}
+	ps := src.PaymentService{}
+
+	// Создание экземпляра TransactionServer
+	ts := &src.TransactionServer{
+		Transactions: make(map[string][]*pb.Transaction),
+	}
+
+	// Создание экземпляра UserServiceServer
+	us := src.NewUserServiceServer()
+
+	// Создание экземпляра Bank
 	bank := src.NewBank()
-	account := &pb.BankAccount{
-		User:          "User1",
-		AccountNumber: "1234567890",
-		BankName:      "Bank1",
-		CardNumber:    "1111222233334444",
-		CardExpiry:    "01/23",
+
+	// Создание нового банковского счета
+	newAccount := &pb.BankAccount{
+		User:          "John Doe",
+		AccountNumber: "123456789",
+		BankName:      "My Bank",
+		CardNumber:    "1000000000000",
+		CardExpiry:    "12/24",
 		CardCVV:       "123",
 	}
 
-	// Добавьте банковский счет в банк
-	response := bank.AddBankAccount(account)
-
-	// Выведите подтверждение
+	// Добавление нового банковского счета
+	response := bank.AddBankAccount(newAccount)
 	fmt.Println(response.Confirmation)
 
+	// Запуск сервера
+	lis, err := net.Listen("tcp", "localhost:50051")
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
+	grpcServer := grpc.NewServer()
+
+	// Регистрация серверов
+	pb.RegisterPaymentServiceServer(grpcServer, &s)
+	pb.RegisterPaymentServiceServer(grpcServer, &ps)
+
+	// Регистрация TransactionServer
+	pb.RegisterTransactionServiceServer(grpcServer, ts)
+
+	// Регистрация UserServiceServer
+	pb.RegisterUserServiceServer(grpcServer, us)
+
+	if err := grpcServer.Serve(lis); err != nil {
+		log.Fatalf("failed to serve: %v", err)
+	}
 }

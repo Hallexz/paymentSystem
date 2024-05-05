@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-deployment
+spec:
+  selector:
+    app: payment-deployment
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 50051
+  type: LoadBalancer
